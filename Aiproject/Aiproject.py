@@ -46,7 +46,8 @@ while True:
         for p in players:
             p.decision(a,screen,ti)
     if ti % spaw.speed*fps == 0:
-        enemies.append(spaw.spawn())
+        spaw.spawn()
+        enemies = spaw.enemies
     
     for e in enemies:
         m = pygame.mouse.get_pos()

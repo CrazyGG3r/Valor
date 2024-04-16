@@ -64,6 +64,8 @@ class Ball:
         return {'x': self.x, 'y': self.y, 'radius': self.radius}
     
     def check_collision(ball1,ball2):
+        pass
+    
         
         
 class bullet:
@@ -307,12 +309,15 @@ class spawner:
         self.maxx = screen.get_width()
         self.maxy = screen.get_height()
         self.speed = 60
+        self.limit = 5
+        self.enemies = []
         
     def spawn(self):
         ax = r.randint(-50,self.maxx + 50)
         ay = r.randint(-50,self.maxy + 50)
         ra = 20
         col = (r.randint(0,255),r.randint(100,150),r.randint(0,100))
+        if len(self.enemies) == self.limit:
+            return
         en = enemy((ax,ay),ra,1,"bob",col,100)
-        return en
-        
+        self.enemies.append(en)    
