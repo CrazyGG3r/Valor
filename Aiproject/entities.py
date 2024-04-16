@@ -1,4 +1,5 @@
 
+from calendar import c
 import random as r
 from math import atan2, degrees
 import pygame
@@ -11,7 +12,7 @@ pygame.init()
 #BALL
 
 class Ball:
-    def __init__(self,coords, radius, speed, name, color):
+    def __init__(self,coords, radius, speed, name, color,):
         self.fnt = pygame.font.Font(None, 20)
         self.x = int(coords[0])
         self.y = int(coords[1])
@@ -20,40 +21,16 @@ class Ball:
         self.name = self.fnt.render(self.tname, True, (255, 255, 255))
         self.speed = int(speed)
         self.color = tuple(color)
+        
     def bname(self):
        self.name = self.fnt.render(self.tname, True, (255, 255, 255))
     
-    
-    def move(self,event,screen,client = None):
-         if event == pygame.K_RIGHT:
-              if screen.get_width()> self.x:
-                self.x +=self.speed
-              else: 
-                self.x = screen.get_width() - self.speed
-                
-         if event == pygame.K_LEFT:
-              if 0 < self.x:
-                self.x -=self.speed
-              else: 
-                self.x = self.speed
-                
-         if event == pygame.K_UP:
-             if 0 < self.y:
-                 self.y -= self.speed
-             else :
-                 self.y = self.speed
-                 
-         if event== pygame.K_DOWN:
-             if screen.get_height() >  self.y:
-                self.y += self.speed
-             else: 
-                self.y = screen.get_height() - self.speed
-                
-        
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
         screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
-        
+                
+   
+            
     def updatewholeball(self,data):
        self.tname = str(data['name'])
        self.bname()
@@ -196,8 +173,8 @@ class shotGun(gun):
             return c
     
 class person(Ball):#is a ball for now
-    def __init__(self,coords, radius, speed, name, color ,ammo ,health,lives):
-        super().__init__(coords, radius, speed, name, color)
+    def __init__(self,coords, radius, speed, name, color ,ammo ,health,lives,screen):
+        super().__init__(coords, radius, speed, name, color,)
         self.maxhp = health
         self.currenthp = health
         self.lives = lives
@@ -206,6 +183,35 @@ class person(Ball):#is a ball for now
         self.gun = self.weaponry[self.currgun]
         self.bullets = []
         self.prev = 0
+        
+        
+    def move(self,event,screen,client = None):
+         if event == pygame.K_RIGHT:
+              if screen.get_width()> self.x:
+                self.x +=self.speed
+              else: 
+                self.x = 0 - self.radius
+                
+         if event == pygame.K_LEFT:
+              if 0 < self.x:
+                self.x -=self.speed
+              else: 
+                self.x = screen.get_width() + self.radius
+                
+         if event == pygame.K_UP:
+             if 0 < self.y:
+                 self.y -= self.speed
+             else :
+                 self.y = screen.get_height() + self.radius
+                 
+         if event== pygame.K_DOWN:
+             if screen.get_height() >  self.y:
+                self.y += self.speed
+             else: 
+                self.y = 0 - self.radius
+            
+         
+        
     def draw(self, screen):
         pygame.draw.circle(screen,self.color,(self.x,self.y),self.radius)
         screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
@@ -228,6 +234,7 @@ class person(Ball):#is a ball for now
         pygame.draw.rect(screen,(230,230,230),bgrect)      
         currbgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o)),currentfullhealthbarwidth,currentfullhealthbarheight)
         pygame.draw.rect(screen,barcolor,currbgrect)
+    
     
     def decision(self,key,screen,ti):
         

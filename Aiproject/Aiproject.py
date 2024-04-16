@@ -11,7 +11,7 @@ pygame.mouse.set_visible(True)
 screen = pygame.display.set_mode((width, height),pygame.RESIZABLE)
 
 col = (0,200,200)
-p1 = person((width//2,height//2),20,5,'test',col,100,100,5)
+p1 = person((width//2,height//2),20,5,'test',col,100,100,5,screen)
 
 bg = (0,20,20)
 movr = False
@@ -52,7 +52,7 @@ while True:
     for e in enemies:
         m = pygame.mouse.get_pos()
         if e :
-            if ti%r.randint(1,15) ==0:
+            if ti%r.randint(1,2) ==0:
                 e.move1(screen,p1.x,p1.y)
             e.draw(screen)
     for p in players:
