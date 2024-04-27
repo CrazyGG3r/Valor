@@ -1,7 +1,7 @@
 
 from calendar import c
 import random as r
-from math import atan2, degrees
+from math import atan2, degrees, dist, sqrt
 import pygame
 import logging
 
@@ -39,7 +39,8 @@ class   Ball:
        self.color = data['color']
     def to_dict(self):
         return {'x': self.x, 'y': self.y, 'radius': self.radius}
-    
+    def check_collision(self,ball):
+        pass
     def check_pos(self,screen):
         if self.x>screen.get_width()+self.radius:
             self.x = 0 - self.radius
@@ -210,7 +211,6 @@ class person(Ball):#is a ball for now
             self.MovVector[1] += self.decayRate
         
     def move(self,event,screen,client = None):
-         
          self.x += self.MovVector[0]
          self.y += self.MovVector[1]
          self.decayVector()
@@ -283,16 +283,27 @@ class enemy(Ball):#is a ball for now
         super().__init__(coords, radius, speed, name, color)
         self.maxhp = health
         self.currenthp = health
-        self.startvec = (self.x,self.y)
-        self.cx = self.x
-        self.cy = self.y
-        self.currentvec = (self.cx,self.cy)
-        self.xd = 0
-        self.yd = 0
-        self.destvec = (self.xd,self.yd)
+        self.speed = 1
+        self.target = []
+        self.movVector = [0,0]
+        self.frame  = 60
+        self.timetoReach = 3
+    def move1(self,screen,px,py):
+        self.target = [px,py]
+        self.x += self.movVector[0]
+        self.y += self.movVector[1]
+        
+        diff_vec = [self.target[0] - self.x,self.target[1] - self.y]
+        distance = sqrt(pow(diff_vec[0],2) + pow(diff_vec[1],2))
+        direction = [diff_vec[0]/distance,diff_vec[1]/distance]
+        
+        self.movVector[0] = direction[0] * self.speed
+        self.movVector[1] = direction[1] * self.speed
+        
+            
     def draw(self, screen):
-        pygame.draw.circle(screen,self.color,(self.cx,self.cy),self.radius)
-        screen.blit(self.name,((self.cx-self.radius),(self.cy + self.radius +10)))
+        pygame.draw.circle(screen,self.color,(self.x,self.y),self.radius)
+        screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
         barwidth = 40
         barheight = 6
         healthpercent = self.currenthp/self.maxhp
@@ -308,22 +319,10 @@ class enemy(Ball):#is a ball for now
         currentfullhealthbarwidth =  healthpercent* barwidth
         o = 10
         currentfullhealthbarheight = barheight - 2
-        bgrect = pygame.Rect((self.cx - self.radius),(self.cy-(self.radius + o+1)),barwidth,barheight)
+        bgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o+1)),barwidth,barheight)
         pygame.draw.rect(screen,(230,230,230),bgrect)      
-        currbgrect = pygame.Rect((self.cx - self.radius),(self.cy-(self.radius + o)),currentfullhealthbarwidth,currentfullhealthbarheight)
+        currbgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o)),currentfullhealthbarwidth,currentfullhealthbarheight)
         pygame.draw.rect(screen,barcolor,currbgrect)
-    
-    def move1(self,screen,px,py):
-        self.destvec = (px,py)
-        if self.cx < px:
-            self.cx += self.speed
-        if self.cy < py:
-            self.cy += self.speed
-        if self.cx > px:
-            self.cx -= self.speed
-        if self.cy > py:
-            self.cy -=self.speed
-            
 class spawner:
     def __init__(self,screen):
         self.maxx = screen.get_width()
