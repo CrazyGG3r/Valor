@@ -1,4 +1,4 @@
-  
+
 print("hello")
 import pygame
 from entities import * 
@@ -11,7 +11,7 @@ pygame.mouse.set_visible(True)
 screen = pygame.display.set_mode((width, height),pygame.RESIZABLE)
 
 col = (0,200,200)
-p1 = person((width//2,height//2),20,5,'test',col,100,100,5,screen)
+p1 = person((width//2,height//2),20,1,'test',col,100,100,5,screen)
 
 bg = (0,20,20)
 movr = False
@@ -66,5 +66,6 @@ while True:
                     
                     b.move()
                     b.draw(screen)
+        p.move(None,screen)
         p.draw(screen)           
     pygame.display.flip()

@@ -11,7 +11,7 @@ pygame.init()
 #ENTITIES DEFINED:
 #BALL
 
-class Ball:
+class   Ball:
     def __init__(self,coords, radius, speed, name, color,):
         self.fnt = pygame.font.Font(None, 20)
         self.x = int(coords[0])
@@ -40,8 +40,16 @@ class Ball:
     def to_dict(self):
         return {'x': self.x, 'y': self.y, 'radius': self.radius}
     
-    def check_collision(ball1,ball2):
-        pass
+    def check_pos(self,screen):
+        if self.x>screen.get_width()+self.radius:
+            self.x = 0 - self.radius
+        if self.x<0-self.radius:
+            self.x = screen.get_width() + self.radius
+        if self.y>screen.get_height()+ self.radius:
+            self.y = 0-self.radius
+        if self.y<0-self.radius:
+            self.y = screen.get_height() + self.radius
+            
     
         
         
@@ -183,33 +191,38 @@ class person(Ball):#is a ball for now
         self.gun = self.weaponry[self.currgun]
         self.bullets = []
         self.prev = 0
+        self.MovVector = [0,0]
+        self.movelimit = 60 * 1
+        self.decayRate = self.speed/self.movelimit
         
+    def resetMov(self):
+        self.MovVector = [0,0]
+        
+    def decayVector(self):
+        print(self.MovVector)
+        if self.MovVector[0] > 0:
+            self.MovVector[0] -= self.decayRate
+        if self.MovVector[1] > 0:
+            self.MovVector[1] -= self.decayRate
+        if self.MovVector[0] < 0:
+            self.MovVector[0] += self.decayRate
+        if self.MovVector[1] < 0:
+            self.MovVector[1] += self.decayRate
         
     def move(self,event,screen,client = None):
-         if event == pygame.K_RIGHT:
-              if screen.get_width()> self.x:
-                self.x +=self.speed
-              else: 
-                self.x = 0 - self.radius
-                
+         
+         self.x += self.MovVector[0]
+         self.y += self.MovVector[1]
+         self.decayVector()
          if event == pygame.K_LEFT:
-              if 0 < self.x:
-                self.x -=self.speed
-              else: 
-                self.x = screen.get_width() + self.radius
-                
+             self.MovVector[0] = -self.speed
+         if event == pygame.K_RIGHT:
+             self.MovVector[0] = +self.speed
          if event == pygame.K_UP:
-             if 0 < self.y:
-                 self.y -= self.speed
-             else :
-                 self.y = screen.get_height() + self.radius
-                 
+             self.MovVector[1] = -self.speed
          if event== pygame.K_DOWN:
-             if screen.get_height() >  self.y:
-                self.y += self.speed
-             else: 
-                self.y = 0 - self.radius
-            
+             self.MovVector[1] = self.speed
+         self.check_pos(screen)
          
         
     def draw(self, screen):
