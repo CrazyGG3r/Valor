@@ -52,7 +52,7 @@ while True:
     for e in enemies:
         m = pygame.mouse.get_pos()
         if e :
-            if ti%r.randint(1,2) ==0:
+            if ti%r.randint(1,15) ==0:
                 e.move1(screen,p1.x,p1.y)
             e.draw(screen)
     for p in players:
