@@ -1,6 +1,7 @@
 from re import A
 import pygame
 import random
+import colors as c
 
 font = ['assets\\fonts\\f1.ttf','assets\\fonts\\f2.ttf']
 
@@ -39,17 +40,17 @@ class button:
         self.pad_y = self.y + padding[1]
         self.width = w
         self.height = h
-        self.NotHovercolor = color
-        self.Hovercolor = []
-        for n, a in enumerate(self.NotHovercolor):
-            a -= 50 
-            if a < 0:
-                a = 0
-            if a <= -1:
-                a *= -1
-            if a>255:
-               a = a -255
-            self.Hovercolor.append(a)
+        self.NotHovercolor = c.colorlist[3]
+        self.Hovercolor = c.colorlist[5]
+        # for n, a in enumerate(self.NotHovercolor):
+        #     a -= 50 
+        #     if a < 0:
+        #         a = 0
+        #     if a <= -1:
+        #         a *= -1
+        #     if a>255:
+        #        a = a -255
+        #     self.Hovercolor.append(a)
         self.Hovercolor = tuple(self.Hovercolor)
         print(self.Hovercolor)
         self.text = None

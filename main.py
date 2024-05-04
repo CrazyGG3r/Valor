@@ -42,8 +42,9 @@ butt_w = 200
 neon  = 150
 color_butt = (0,neon,neon)
 bf = 1
-heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,(200,200,200) ,"Drone Coordination Simulation",1)
+heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,(200,200,200) ,"               Valor",1)
 sizefont = 30
+#0c0c0c,201310,351b15,4a2319,5f2a1e,743223,893a27,9e422c,b34931,c85135,dd593a,f2613f
 fcolor = (0,10,10)
 t1 = c.Text((0, 0), sizefont, fcolor, "Start",bf)
 t2 = c.Text((0, 0), sizefont, fcolor, "Options",bf)

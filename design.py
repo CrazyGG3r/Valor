@@ -1,4 +1,4 @@
-from venv import create
+
 import pygame
 pygame.init()
 import random as r 

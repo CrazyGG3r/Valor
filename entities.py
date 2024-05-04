@@ -1,5 +1,5 @@
 
-from calendar import c
+
 import random as r
 from math import atan2, degrees, dist, sqrt
 import pygame
