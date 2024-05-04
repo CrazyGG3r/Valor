@@ -16,10 +16,11 @@ screen_height = 720
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Gradient Squares")
 
-# Colors
+# Colors 
 WHITE = (0,0,0)
-RED =(255, 32, 78)
-GREEN = (0,34,77)
+RED = (0,34,77)######<------ RED MEANS STARTINGGG COLOR. SHOULD BE DARK
+GREEN =(255, 32, 78)### <<______------ GREEEN MEANS ENDING COLOR. SHOULD BE BRIGHT
+ 
 
 # Square dimensions and positions
 square_size = 30
