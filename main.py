@@ -20,19 +20,6 @@ squares = []
 population = 100
 maxsize = 150
 choice = [-1,1]
-# def reset_bg():
-#     if squares:
-#         for a in range(population):
-#             squares.pop()
-#         print(len(squares))
-#     for a in range(population):
-#         neon = r.randint(10,50)
-#         coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
-#         coloro = (0,neon,neon)
-#         raa = r.randint(0,100)/1000
-#         raa = r.choice(choice) * raa
-#         squares.append(d.Square(coo,r.randint(10,maxsize),coloro,raa))
-# reset_bg()        
 WHITE = (0,0,0)
 offsety = 40
 offsetx = 160
@@ -60,7 +47,7 @@ all_butts = [b1,b2,b3,b4]
 
 ##=-=- backgroufn
 
-bgg = d.Background(window,50,1)
+bgg = d.Background(window,70,1)
 tra = d.Trailsquare(7)
    
 

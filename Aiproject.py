@@ -3,7 +3,7 @@ print("hello")
 import pygame
 from entities import * 
 import random as r 
-
+import colors as cc
 pygame.init()
 i = pygame.display.Info()
 width,height = 1280,720
@@ -24,48 +24,48 @@ fps = 60
 ti =  0
 players = [p1]
 enemies = []
-spaw = spawner(screen)
+## Ai
+valor = Bot([100,100],20,1,"Retardium",cc.colorlist[11])
 
+spaw = spawner(screen,valor) 
+
+botdie = 0
 while True:
-    screen.fill(bg)
-    clock.tick(fps)
-    ti +=1
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            running = False
-        if event.type == pygame.KEYDOWN:
-            keys_pressed.add(event.key)
-        if event.type == pygame.KEYUP:
-           keys_pressed.discard(event.key)
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 4:
-                print("up")
-                p1.changeWeapon()
-    for a in keys_pressed:
-        for p in players:
-            p.decision(a,screen,ti)
-    if ti % spaw.speed*fps == 0:
-        spaw.spawn()
-        enemies = spaw.enemies
     
-    for e in enemies:
-        m = pygame.mouse.get_pos()
-        if e :
-            if ti%r.randint(1,15) ==0:
-                e.move1(screen,p1.x,p1.y)
-            e.draw(screen)
-    for p in players:
-        if p.bullets:
-            for b in p.bullets:
-                if b == None:
-                    continue
-                if b.shooting == False:
-                    p.bullets.remove(b)
-                else:
-                    
-                    b.move()
-                    b.draw(screen)
-        p.move(None,screen)
-        p.draw(screen)           
+    while botdie ==0 :
+        screen.fill(bg)
+        clock.tick(fps)
+        ti +=1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                running = False
+            if event.type == pygame.KEYDOWN:
+                keys_pressed.add(event.key)
+            if event.type == pygame.KEYUP:
+               keys_pressed.discard(event.key)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 4:
+                    print("up")
+                    p1.changeWeapon()
+        for a in keys_pressed:
+            for p in players:
+                p.decision(a,screen,ti)
+        if ti % spaw.speed*fps == 0:
+            spaw.spawn()
+            enemies = spaw.enemies
+        
+        for e in enemies:
+            m = pygame.mouse.get_pos()
+            if e :
+                if ti%r.randint(1,15) ==0:
+                    e.move1(screen,valor.x,valor.y)
+                e.draw(screen)
+                if (valor.is_collision(e)):
+                    botdie = 1
+        valor.move(r.randint(0,100),screen)
+        
+        valor.draw(screen)  
+        pygame.display.flip()
+    print("Bot dead")
     pygame.display.flip()

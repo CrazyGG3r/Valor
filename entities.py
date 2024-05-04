@@ -49,11 +49,7 @@ class   Ball:
         if self.y>screen.get_height()+ self.radius:
             self.y = 0-self.radius
         if self.y<0-self.radius:
-            self.y = screen.get_height() + self.radius
-            
-    
-        
-        
+            self.y = screen.get_height() + self.radius                              
 class bullet:
     def __init__(self,color = (255,255,255),x = 0,y = 0, Duration = 1, size = 5):
         self.w,self.h = 10,5
@@ -104,12 +100,10 @@ class bullet:
                 self.shooting = False
             else:
                 self.currentvec = (float(self.currentvec[0]+ self.unitvector[0]),float(self.currentvec[1]+self.unitvector[1]))
-        
 class gun:
     def __init__(self,ammo = 1000,cooldown = 30):
         self.ammo = ammo
-        self.guncooldown = cooldown 
-        
+        self.guncooldown = cooldown         
 class pistol(gun):
     def __init__(self,ammo = 15, cd = 50):
         super().__init__(ammo,cd)
@@ -123,7 +117,6 @@ class pistol(gun):
             self.ammo -=1 
             c =[b]
             return c
-
 class miniGun(gun):
     def __init__(self,ammo = 1500, cd = 5):
         super().__init__(ammo,cd)
@@ -140,7 +133,6 @@ class miniGun(gun):
             self.ammo -=1 
             c = [b]
             return c
-
 class shotGun(gun):
     def __init__(self,ammo = 1000, cd = 100,radius = 200):
         super().__init__(ammo,cd)
@@ -180,7 +172,48 @@ class shotGun(gun):
             self.ammo -=1 
             c = [b,b1,b2,b3,b4,b5]
             return c
-    
+        
+class Bot(Ball):
+    def __init__(self,coords, radius, speed, name, color ,screen=None):
+        super().__init__(coords, radius, speed, name, color,)
+        self.lives = 1
+        self.prev = 0
+        self.MovVector = [0,0]
+        self.movelimit = 60 * 1
+        self.decayRate = self.speed/self.movelimit
+    def resetMov(self):
+        self.MovVector = [0,0]
+    def decayVector(self):
+        if self.MovVector[0] > 0:
+            self.MovVector[0] -= self.decayRate
+        if self.MovVector[1] > 0:
+            self.MovVector[1] -= self.decayRate
+        if self.MovVector[0] < 0:
+            self.MovVector[0] += self.decayRate
+        if self.MovVector[1] < 0:
+            self.MovVector[1] += self.decayRate
+    def move(self,event,screen,client = None):
+         self.x += self.MovVector[0]
+         self.y += self.MovVector[1]
+         self.decayVector()
+         if event == 1:
+             self.MovVector[0] = -self.speed
+         if event == 2:
+             self.MovVector[0] = +self.speed
+         if event == 3:
+             self.MovVector[1] = -self.speed
+         if event == 4:
+             self.MovVector[1] = self.speed
+         self.check_pos(screen)
+    def draw(self, screen):
+        pygame.draw.circle(screen,self.color,(self.x,self.y),self.radius)
+        screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
+    def is_collision(self, ball):
+        distance = ((self.x - ball.x) ** 2 + (self.y - ball.y) ** 2) ** 0.5
+        if distance <= self.radius + ball.radius:
+            return True
+        return False
+
 class person(Ball):#is a ball for now
     def __init__(self,coords, radius, speed, name, color ,ammo ,health,lives,screen):
         super().__init__(coords, radius, speed, name, color,)
@@ -283,7 +316,7 @@ class enemy(Ball):#is a ball for now
         super().__init__(coords, radius, speed, name, color)
         self.maxhp = health
         self.currenthp = health
-        self.speed = 1
+        self.speed = speed
         self.target = []
         self.movVector = [0,0]
         self.frame  = 60
@@ -304,32 +337,38 @@ class enemy(Ball):#is a ball for now
     def draw(self, screen):
         pygame.draw.circle(screen,self.color,(self.x,self.y),self.radius)
         screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
-        barwidth = 40
-        barheight = 6
-        healthpercent = self.currenthp/self.maxhp
-        reed = 0
-        green = 255
-        if healthpercent < 0.4:
-            reed = min(((reed + 5),255))
-            green = max(((green - 5),0))
-        else:
-            green = 255
+        
+    def draw_withbar(self,screen):
+            pygame.draw.circle(screen,self.color,(self.x,self.y),self.radius)
+            screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
+            barwidth = 40
+            barheight = 6
+            healthpercent = self.currenthp/self.maxhp
             reed = 0
-        barcolor = (reed,green,0)
-        currentfullhealthbarwidth =  healthpercent* barwidth
-        o = 10
-        currentfullhealthbarheight = barheight - 2
-        bgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o+1)),barwidth,barheight)
-        pygame.draw.rect(screen,(230,230,230),bgrect)      
-        currbgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o)),currentfullhealthbarwidth,currentfullhealthbarheight)
-        pygame.draw.rect(screen,barcolor,currbgrect)
+            green = 255
+            if healthpercent < 0.4:
+                reed = min(((reed + 5),255))
+                green = max(((green - 5),0))
+            else:
+                green = 255
+                reed = 0
+            barcolor = (reed,green,0)
+            currentfullhealthbarwidth =  healthpercent* barwidth
+            o = 10
+            currentfullhealthbarheight = barheight - 2
+            bgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o+1)),barwidth,barheight)
+            pygame.draw.rect(screen,(230,230,230),bgrect)      
+            currbgrect = pygame.Rect((self.x - self.radius),(self.y-(self.radius + o)),currentfullhealthbarwidth,currentfullhealthbarheight)
+            pygame.draw.rect(screen,barcolor,currbgrect)
+            
 class spawner:
-    def __init__(self,screen):
+    def __init__(self,screen,target):
         self.maxx = screen.get_width()
         self.maxy = screen.get_height()
         self.speed = 60
         self.limit = 5
         self.enemies = []
+        self.target = target #(x,y) of aggro
         
     def spawn(self):
         ax = r.randint(-50,self.maxx + 50)
@@ -338,5 +377,5 @@ class spawner:
         col = (r.randint(0,255),r.randint(100,150),r.randint(0,100))
         if len(self.enemies) == self.limit:
             return
-        en = enemy((ax,ay),ra,1,"bob",col,100)
+        en = enemy((ax,ay),ra,10,"bob",col,100)
         self.enemies.append(en)    
