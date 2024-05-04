@@ -3,7 +3,7 @@ import pygame
 import random
 import colors as c
 
-font = ['assets\\fonts\\f1.ttf','assets\\fonts\\f2.ttf']
+font = ['assets\\fonts\\f1.ttf','assets\\fonts\\f2.ttf','assets\\fonts\\f3.ttf']
 
 class Text:
     def __init__(self, coords, font_size, color, text, fonts=0):
@@ -19,6 +19,7 @@ class Text:
     def update_text(self, new_text):
         self.text = new_text
         self.surface = self.font.render(new_text, True, self.color)
+        
     def update_coords(self, coords):
         self.x = coords[0]
         self.y = coords[1]

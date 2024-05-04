@@ -1,6 +1,7 @@
 
 print("hello")
 import pygame
+from classes import Text
 from entities import * 
 import random as r 
 import colors as cc
@@ -12,34 +13,30 @@ pygame.mouse.set_visible(True)
 screen = pygame.display.set_mode((width, height),pygame.RESIZABLE)
  
 #settup colors
-
 color1 = cc.colorlist[12]
 color2 = (0,0,0)
 newcolor = genn.diffuser(color1,color1)
-
 col = r.choice(newcolor)
-p1 = person((width//2,height//2),20,1,'test',col,100,100,5,screen)
+#-=-=-=-
 
 bg = cc.colorlist[0]
 movr = False
 keyy = None
 clock = pygame.time.Clock()
 keys_pressed = set()
-bullets= []
-btick = 0
 fps = 60
 ti =  0
-players = [p1]
+
 enemies = []
-## Ai
+## Setups
 valor = Bot([100,100],20,1,"Retardium",cc.colorlist[11])
-
-spaw = spawner(screen,valor) 
-
+spaw = spawner(screen,valor)
 botdie = 0
-while True:
-    
-    while botdie ==0 :
+Score = 0
+scoredisplay = Text(((screen.get_width()//2)-70,10),50,cc.colorlist[12],"Score : 0 ",2)
+n = 0
+texts = [scoredisplay]
+while botdie ==0 :
         screen.fill(bg)
         clock.tick(fps)
         ti +=1
@@ -54,14 +51,14 @@ while True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:
                     print("up")
-                    p1.changeWeapon()
-        for a in keys_pressed:
-            for p in players:
-                p.decision(a,screen,ti)
+                    
         if ti % spaw.speed*fps == 0:
             spaw.spawn(r.choice(newcolor))
             enemies = spaw.enemies
-        
+          
+        Score+=1
+        sc = "Score : " + str(Score)
+        scoredisplay.update_text(sc)
         for e in enemies:
             m = pygame.mouse.get_pos()
             if e :
@@ -70,6 +67,8 @@ while True:
                 e.draw(screen)
                 if (valor.is_collision(e)):
                     botdie = 1
+        for a in texts:
+            a.draw(screen)
         valor.move(r.randint(0,100),screen)
         
         valor.draw(screen)  

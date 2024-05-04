@@ -39,8 +39,7 @@ class   Ball:
        self.color = data['color']
     def to_dict(self):
         return {'x': self.x, 'y': self.y, 'radius': self.radius}
-    def check_collision(self,ball):
-        pass
+    
     def check_pos(self,screen):
         if self.x>screen.get_width()+self.radius:
             self.x = 0 - self.radius
@@ -183,6 +182,7 @@ class Bot(Ball):
         self.decayRate = self.speed/self.movelimit
     def resetMov(self):
         self.MovVector = [0,0]
+        
     def decayVector(self):
         if self.MovVector[0] > 0:
             self.MovVector[0] -= self.decayRate
@@ -192,6 +192,7 @@ class Bot(Ball):
             self.MovVector[0] += self.decayRate
         if self.MovVector[1] < 0:
             self.MovVector[1] += self.decayRate
+            
     def move(self,event,screen,client = None):
          self.x += self.MovVector[0]
          self.y += self.MovVector[1]
@@ -205,6 +206,7 @@ class Bot(Ball):
          if event == 4:
              self.MovVector[1] = self.speed
          self.check_pos(screen)
+         
     def draw(self, screen):
         pygame.draw.circle(screen,self.color,(self.x,self.y),self.radius)
         screen.blit(self.name,((self.x-self.radius),(self.y + self.radius +10)))
@@ -369,6 +371,9 @@ class spawner:
         self.limit = 5
         self.enemies = []
         self.target = target #(x,y) of aggro
+    
+    def reset_spawner(self):
+        self.enemies.clear()
         
     def spawn(self,colors):
         ax = r.randint(-50,self.maxx + 50)
