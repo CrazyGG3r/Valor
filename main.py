@@ -40,7 +40,7 @@ t4 = c.Text((0, 0), sizefont, fcolor, "Exit",bf)
 b1 = c.button(((heading.x + offsetx), (heading.y + offsety + 10)), butt_w, butt_h, color_butt, (10, 5), t1,)
 b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2,settingsaa)
 b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3,)
-b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4)
+b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4,exit)
 all_text = [heading]
 all_butts = [b1,b2,b3,b4]
 

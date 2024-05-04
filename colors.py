@@ -35,7 +35,10 @@ class ColorPicker:
         
         # Font for displaying text
         self.font = pygame.font.Font(None, 24)
-
+    def updateSelf(self,iniit):
+        self.r_value = iniit[0]
+        self.g_value = iniit[1]
+        self.b_value = iniit[2]
     def draw_slider(self, y, value, color,screen):
         # pygame.draw.rect(screen, color, (self.x, y, self.slider_width, self.slider_height), 1)  # Draw the border
         # fill_width = int(value / 255 * self.slider_width)

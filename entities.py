@@ -370,12 +370,12 @@ class spawner:
         self.enemies = []
         self.target = target #(x,y) of aggro
         
-    def spawn(self):
+    def spawn(self,colors):
         ax = r.randint(-50,self.maxx + 50)
         ay = r.randint(-50,self.maxy + 50)
         ra = 20
         col = (r.randint(0,255),r.randint(100,150),r.randint(0,100))
         if len(self.enemies) == self.limit:
             return
-        en = enemy((ax,ay),ra,10,"bob",col,100)
+        en = enemy((ax,ay),ra,3,"bob",col,100)
         self.enemies.append(en)    

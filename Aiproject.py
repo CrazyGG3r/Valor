@@ -4,16 +4,23 @@ import pygame
 from entities import * 
 import random as r 
 import colors as cc
+import colorgentool as genn
 pygame.init()
 i = pygame.display.Info()
 width,height = 1280,720
 pygame.mouse.set_visible(True)
 screen = pygame.display.set_mode((width, height),pygame.RESIZABLE)
+ 
+#settup colors
 
-col = (0,200,200)
+color1 = cc.colorlist[12]
+color2 = (0,0,0)
+newcolor = genn.diffuser(color1,color1)
+
+col = r.choice(newcolor)
 p1 = person((width//2,height//2),20,1,'test',col,100,100,5,screen)
 
-bg = (0,20,20)
+bg = cc.colorlist[0]
 movr = False
 keyy = None
 clock = pygame.time.Clock()
@@ -52,7 +59,7 @@ while True:
             for p in players:
                 p.decision(a,screen,ti)
         if ti % spaw.speed*fps == 0:
-            spaw.spawn()
+            spaw.spawn(r.choice(newcolor))
             enemies = spaw.enemies
         
         for e in enemies:
