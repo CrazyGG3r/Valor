@@ -10,6 +10,7 @@ class Text:
         self.text = text
         self.font_size = font_size
         self.color = color
+        self.color2 = color
         self.x = coords[0]
         self.y = coords[1]
         self.font = pygame.font.Font(font[fonts], font_size)
@@ -25,7 +26,8 @@ class Text:
         screen.blit(self.surface, (self.x, self.y))
 
     def changecolor(self, color):
-        self.color = color
+        self.surface = self.font.render(self.text, True, color)
+        
 
 
 def dummy(ac = "None"):
@@ -40,8 +42,8 @@ class button:
         self.pad_y = self.y + padding[1]
         self.width = w
         self.height = h
-        self.NotHovercolor = c.colorlist[3]
-        self.Hovercolor = c.colorlist[5]
+        self.NotHovercolor = c.colorlist[9]
+        self.Hovercolor = c.colorlist[4]
         # for n, a in enumerate(self.NotHovercolor):
         #     a -= 50 
         #     if a < 0:
@@ -63,9 +65,14 @@ class button:
     def draw(self, screen,):
         if self.hover:
             pygame.draw.rect(screen, self.Hovercolor, (self.x, self.y, self.width, self.height))
+            self.text.color2 = c.colorlist[10]
+            self.text.changecolor(self.text.color2)
+            self.text.draw(screen)
         else:
             pygame.draw.rect(screen, self.NotHovercolor, (self.x, self.y, self.width, self.height))
-        self.text.draw(screen)
+            self.text.changecolor(self.text.color)
+            self.text.draw(screen)
+            self.text.draw(screen)
 class CreateDrone:
     def __init__(self, radius, position, speed, destination, name, color):
         self.radius = radius

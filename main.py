@@ -5,14 +5,14 @@ import classes as c
 import design as d
 import random as r
 from settings import *
-
+import colors as cc
 
 pygame.init()
 
 window_width = 1280
 window_height = 720
 window = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
-pygame.display.set_caption("Drone Coordination")
+pygame.display.set_caption("Valor")
 pygame.mouse.set_visible(False)
 
 
@@ -20,20 +20,19 @@ squares = []
 population = 100
 maxsize = 150
 choice = [-1,1]
-def reset_bg():
-    if squares:
-        for a in range(population):
-            squares.pop()
-        print(len(squares))
-    for a in range(population):
-        neon = r.randint(10,50)
-        coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
-        coloro = (0,neon,neon)
-        raa = r.randint(0,100)/1000
-        raa = r.choice(choice) * raa
-        squares.append(d.Square(coo,r.randint(10,maxsize),coloro,raa))
-reset_bg()        
-
+# def reset_bg():
+#     if squares:
+#         for a in range(population):
+#             squares.pop()
+#         print(len(squares))
+#     for a in range(population):
+#         neon = r.randint(10,50)
+#         coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
+#         coloro = (0,neon,neon)
+#         raa = r.randint(0,100)/1000
+#         raa = r.choice(choice) * raa
+#         squares.append(d.Square(coo,r.randint(10,maxsize),coloro,raa))
+# reset_bg()        
 WHITE = (0,0,0)
 offsety = 40
 offsetx = 160
@@ -42,10 +41,11 @@ butt_w = 200
 neon  = 150
 color_butt = (0,neon,neon)
 bf = 1
-heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,(200,200,200) ,"               Valor",1)
+textcolor = cc.colorlist[12]
+heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,textcolor ,"               Valor",1)
 sizefont = 30
 #0c0c0c,201310,351b15,4a2319,5f2a1e,743223,893a27,9e422c,b34931,c85135,dd593a,f2613f
-fcolor = (0,10,10)
+fcolor = cc.colorlist[2]
 t1 = c.Text((0, 0), sizefont, fcolor, "Start",bf)
 t2 = c.Text((0, 0), sizefont, fcolor, "Options",bf)
 t3 = c.Text((0, 0), sizefont, fcolor, "Credits",bf)
@@ -60,6 +60,7 @@ all_butts = [b1,b2,b3,b4]
 
 ##=-=- backgroufn
 
+bgg = d.Background(window,50,1)
 tra = d.Trailsquare(7)
    
 
@@ -89,12 +90,13 @@ while running:
         else:
             a.hover = False
     for a in clicked_buttons:
-        reset_bg()
+        a.action()
+        bgg.reset_bg(window)
         tra.resetTrail()
-        a.action(window)
-        reset_bg()
-        tra.resetTrail()
-    window.fill(background_color)
+     
+        
+
+    bgg.draw(window)
     for a in squares:
         a.move(window)
         a.draw(window)
@@ -102,6 +104,7 @@ while running:
         a.draw(window)
     for a in all_butts:
         a.draw(window)
+    
     m = pygame.mouse.get_pos()
     tra.update((m[0],m[1]))
     tra.draw(window)

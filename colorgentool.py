@@ -18,8 +18,8 @@ pygame.display.set_caption("Gradient Squares")
 
 # Colors 
 WHITE = (0,0,0)
-RED = (0,34,77)######<------ RED MEANS STARTINGGG COLOR. SHOULD BE DARK
-GREEN =(255, 32, 78)### <<______------ GREEEN MEANS ENDING COLOR. SHOULD BE BRIGHT
+RED =(73, 36, 62)######<------ RED MEANS STARTINGGG COLOR. SHOULD BE DARK
+GREEN =(219, 175, 160)### <<______------ GREEEN MEANS ENDING COLOR. SHOULD BE BRIGHT
  
 
 # Square dimensions and positions
