@@ -4,7 +4,7 @@ import sys
 import classes as c
 import design as d
 import random as r
-from settings import *
+from settings import background_color,settingsaa
 import colors as cc
 
 pygame.init()
@@ -38,8 +38,8 @@ t2 = c.Text((0, 0), sizefont, fcolor, "Options",bf)
 t3 = c.Text((0, 0), sizefont, fcolor, "Credits",bf)
 t4 = c.Text((0, 0), sizefont, fcolor, "Exit",bf)
 b1 = c.button(((heading.x + offsetx), (heading.y + offsety + 10)), butt_w, butt_h, color_butt, (10, 5), t1,)
-b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2)
-b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3)
+b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2,settingsaa)
+b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3,)
 b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4)
 all_text = [heading]
 all_butts = [b1,b2,b3,b4]
@@ -77,7 +77,7 @@ while running:
         else:
             a.hover = False
     for a in clicked_buttons:
-        a.action()
+        a.action(window)
         bgg.reset_bg(window)
         tra.resetTrail()
      
@@ -88,8 +88,10 @@ while running:
         a.move(window)
         a.draw(window)
     for a in all_text:
+        a.updateColor()
         a.draw(window)
     for a in all_butts:
+        a.updateColor()
         a.draw(window)
     
     m = pygame.mouse.get_pos()

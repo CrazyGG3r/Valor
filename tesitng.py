@@ -1,71 +1,118 @@
 import pygame
 import sys
-import random as rrr
-
-# Initialize Pygame
 pygame.init()
+class ColorPicker:
+    def __init__(self, screen, x, y):
+        self.screen = screen
+        self.x = x  # X-coordinate for the color picker
+        self.y = y  # Y-coordinate for the color picker
 
-# Function to convert RGB to hex
-def rgb_to_hex(r, g, b):
-    return '{:02x}{:02x}{:02x}'.format(r, g, b)
+        # Initial RGB values
+        self.r_value = 128
+        self.g_value = 128
+        self.b_value = 128
 
-# Set up the screen
-screen_width = 1300
-screen_height = 720
+        # Slider dimensions and properties
+        self.slider_width = 200
+        self.slider_height = 20
+        self.slider_y_offset = 50  # Space between sliders
+        
+        # Flags to track if the sliders are being dragged
+        self.dragging_r = False
+        self.dragging_g = False
+        self.dragging_b = False
+        
+        # Font for displaying text
+        self.font = pygame.font.Font(None, 24)
+
+    def draw_slider(self, y, value, color,screen):
+        pygame.draw.rect(screen, color, (self.x, y, self.slider_width, self.slider_height), 1)  # Draw the border
+        fill_width = int(value / 255 * self.slider_width)
+        pygame.draw.rect(screen, color, (self.x, y, fill_width, self.slider_height))  # Draw the slider fill
+
+    def draw(self,screen):
+        # Draw sliders for RGB values
+        self.draw_slider(self.y, self.r_value, (self.r_value, 0, 0),screen)  # Red slider
+        self.draw_slider(self.y + self.slider_y_offset, self.g_value, (0, self.g_value, 0),screen)  # Green slider
+        self.draw_slider(self.y + 2 * self.slider_y_offset, self.b_value, (0, 0, self.b_value),screen)  # Blue slider
+        
+        # Display the selected color as a rectangle
+        selected_color = (self.r_value, self.g_value, self.b_value)
+        pygame.draw.rect(screen, selected_color, (self.x + 250, self.y, 100, 100))
+
+        # Display RGB values as text
+        rgb_text = self.font.render(f"RGB: {self.r_value}, {self.g_value}, {self.b_value}", True, (0, 0, 0))
+        screen.blit(rgb_text, (self.x + 250, self.y + 110))
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
+            # Check if the mouse clicked on any of the sliders
+            if self.y <= mouse_y < self.y + self.slider_height:
+                self.dragging_r = True
+            elif self.y + self.slider_y_offset <= mouse_y < self.y + self.slider_y_offset + self.slider_height:
+                self.dragging_g = True
+            elif self.y + 2 * self.slider_y_offset <= mouse_y < self.y + 2 * self.slider_y_offset + self.slider_height:
+                self.dragging_b = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            self.dragging_r, self.dragging_g, self.dragging_b = False, False, False  # Reset dragging flags
+
+    def update(self):
+        # Handle mouse dragging
+        if pygame.mouse.get_pressed()[0]:  # Left mouse button is held down
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            
+            # Adjust RGB values based on which slider is being dragged
+            if self.dragging_r and self.x <= mouse_x <= self.x + self.slider_width:
+                self.r_value = int((mouse_x - self.x) / self.slider_width * 255)
+                self.r_value = max(0, min(self.r_value, 255))
+            elif self.dragging_g and self.x <= mouse_x <= self.x + self.slider_width:
+                self.g_value = int((mouse_x - self.x) / self.slider_width * 255)
+                self.g_value = max(0, min(self.g_value, 255))
+            elif self.dragging_b and self.x <= mouse_x <= self.x + self.slider_width:
+                self.b_value = int((mouse_x - self.x) / self.slider_width * 255)
+                self.b_value = max(0, min(self.b_value, 255))
+
+
+
+
+
+
+
+screen_width = 800
+screen_height = 400
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Gradient Squares")
+pygame.display.set_caption("Multiple Color Pickers")
 
-# Colors
-WHITE = (0,0,0)
-RED =(255, 32, 78)
-GREEN = (0,34,77)
 
-# Square dimensions and positions
-square_size = 30
-margin = 50 # Margin between squares
-square_y = 100
-
-# Calculate gradient colors
-num_squares = 12
-colors = []
-for i in range(num_squares + 2):  # Add 2 for red and green endpoints
-    ratio = i / (num_squares + 1)
-    # Interpolate between red and green
-    r = int((1 - ratio) * RED[0] + ratio * GREEN[0])
-    g = int((1 - ratio) * RED[1] + ratio * GREEN[1])
-    b = int((1 - ratio) * RED[2] + ratio * GREEN[2])
-    colors.append((r, g, b))
-
-# Set up the font
-font = pygame.font.Font(None, 24)
+color_picker1 = ColorPicker(screen, x=50, y=50)
+color_picker2 = ColorPicker(screen, x=50, y=200)
 
 # Main loop
 running = True
-print(colors)
 while running:
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+            running = False
+        
+        # Pass events to each color picker
+        color_picker1.handle_event(event)
+        color_picker2.handle_event(event)
+        
+    # Update each color picker
+    color_picker1.update()
+    color_picker2.update()
 
     # Fill the screen with white color
-    screen.fill(WHITE)
+    screen.fill((255, 255, 255))
 
-    # Draw squares and display RGB values
-    for i in range(num_squares+2):
-        square_x = (screen_width - (num_squares * (square_size + margin) - margin)) / 2 + i * (square_size + margin)
-        
-        # Draw the square with the interpolated color
-        pygame.draw.rect(screen, colors[i ], (square_x, square_y, square_size, square_size))
-        
-        # Create a text surface for the RGB values
-        rgb_text = font.render(f"{colors[i]}", True, (200,200,200))
-        
-        # Display the RGB values above each square
-        if i%2 != 0:
-            screen.blit(rgb_text, (square_x-30, square_y-30))
-        else:
-            screen.blit(rgb_text, (square_x-30, square_y+50))
+    # Draw each color picker
+    color_picker1.draw(screen)
+    color_picker2.draw(screen)
 
     # Update the display
     pygame.display.flip()

@@ -24,6 +24,8 @@ class Text:
         self.y = coords[1]
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))
+    def updateColor(self):
+        self.changecolor(c.colorlist[12])
 
     def changecolor(self, color):
         self.surface = self.font.render(self.text, True, color)
@@ -44,17 +46,8 @@ class button:
         self.height = h
         self.NotHovercolor = c.colorlist[9]
         self.Hovercolor = c.colorlist[4]
-        # for n, a in enumerate(self.NotHovercolor):
-        #     a -= 50 
-        #     if a < 0:
-        #         a = 0
-        #     if a <= -1:
-        #         a *= -1
-        #     if a>255:
-        #        a = a -255
-        #     self.Hovercolor.append(a)
-        self.Hovercolor = tuple(self.Hovercolor)
-        print(self.Hovercolor)
+
+        
         self.text = None
         self.hover = False
         self.text = butt_text
@@ -63,16 +56,21 @@ class button:
         self.isClicked = False
 
     def draw(self, screen,):
+        self.updateColor()
+        self.text.updateColor()
         if self.hover:
             pygame.draw.rect(screen, self.Hovercolor, (self.x, self.y, self.width, self.height))
-            self.text.color2 = c.colorlist[10]
+            self.text.color2 = c.colorlist[12]
             self.text.changecolor(self.text.color2)
             self.text.draw(screen)
         else:
             pygame.draw.rect(screen, self.NotHovercolor, (self.x, self.y, self.width, self.height))
-            self.text.changecolor(self.text.color)
+            self.text.changecolor(c.colorlist[2])
             self.text.draw(screen)
             self.text.draw(screen)
+    def updateColor(self):
+        self.NotHovercolor = c.colorlist[9]
+        self.Hovercolor = c.colorlist[4]
 class CreateDrone:
     def __init__(self, radius, position, speed, destination, name, color):
         self.radius = radius

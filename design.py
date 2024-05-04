@@ -78,7 +78,7 @@ class Square:
         speed = 10
         
         self.directionVector = (r.randint(-speed,speed)/r.randint(10,100),r.randint(speed,speed)/r.randint(10,100))
-        print(self.directionVector)
+       
         
     def move(self,screen):
         self.x +=  self.directionVector[0]
