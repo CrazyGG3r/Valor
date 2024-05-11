@@ -73,5 +73,5 @@ while botdie ==0 :
         
         valor.draw(screen)  
         pygame.display.flip()
-    print("Bot dead")
-    pygame.display.flip()
+        print("Bot dead")
+        pygame.display.flip()
