@@ -1,4 +1,5 @@
 
+#hello zarah
 import pygame
 pygame.init()
 import random as r 
