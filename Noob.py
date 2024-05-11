@@ -25,7 +25,7 @@ class Environment:
             self.dushman.spawn(cc.colorlist[5])
         self.score = 0
         self.scoredisplay.update_text("Score :".format(self.score))
-    
+   
     def is_collision(self,):
         for a in self.dushman.enemies:
             distance = ((self.valor.x - a.x) ** 2 + (self.valor.y - a.y) ** 2) ** 0.5
@@ -44,8 +44,12 @@ class Environment:
         else:
             self.reward = -100 #insta kill 
         return self.reward
-        
-    def render(self,screen):
+    def get_state(self):
+        valorpos = (self.valor.x,self.valor.y)
+        state =[valorpos,self.valor.MovVector,self.dushman.enemies]
+        return state
+    
+    def render(self,screen): 
         for a in self.dushman.enemies:
             a.draw(screen)
         self.valor.draw(screen)
