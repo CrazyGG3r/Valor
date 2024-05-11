@@ -1,6 +1,5 @@
 #this module contains ui settings
 background_color = (0,10,10)
-from tkinter import Button
 import pygame
 import design as d
 import colors as cccc
@@ -23,6 +22,8 @@ def settingsaa(window):
     
     t1 = Text((0,0),30,cccc.colorlist[10]," Randomize ",)
     b1 = button((window.get_width()//3,(window.get_height()//4)+150+200),250,40,cccc.colorlist[9],(10,5),t1,raand)
+
+    
     butts = [b1]
     while running:
         clicked_buttons = []
