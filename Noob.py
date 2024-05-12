@@ -97,13 +97,14 @@ class Environment:
             m = pygame.mouse.get_pos()
             e.move1(screen,self.valor.x,self.valor.y)
         if self.is_collision():
-            self.reward -= 10
+            self.reward -= 100
             self.reset(screen) #change ur reward here
             
         else:
             self.reward +=1 #insta kill 
             print(self.reward)
             return self.get_state(),self.reward,False
+        return self.get_state(),self.reward,False
     
     def get_state(self):
         valorpos = (int(self.valor.x),int(self.valor.y))
