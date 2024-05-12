@@ -379,7 +379,7 @@ class spawner:
         ax = r.randint(-50,self.maxx + 50)
         ay = r.randint(-50,self.maxy + 50)
         ra = 20
-        col = (r.randint(0,255),r.randint(100,150),r.randint(0,100))
+        col = colors
         if len(self.enemies) == self.limit:
             return
         en = enemy((ax,ay),ra,3,"bob",col,100)
