@@ -29,21 +29,33 @@ bgg = d.Background(screen,12,1)
 tra = d.Trailsquare(5)
 Env = Environment(screen)
 
-ISIagent = Agent(100,5)
+ISIagent = Agent(12,5)
 
 while True:
     screen.fill(bg)
     clock.tick(fps)
-    ti +=1
+    ti += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
     
     bgg.draw(screen)
     tra.update(pygame.mouse.get_pos())
-    Env.step(screen,ISIagent.act(Env.get_state()))
-
-    Env.render(screen)
-    tra.draw(screen)
     
+    # Get current state
+    state = Env.get_state()
+    
+    # Choose action
+    action = ISIagent.act(state)
+    
+    # Take action in the environment and get next state, reward, and done flag
+    next_state, reward, done = Env.step(screen, action)
+    
+    # Remember the experience
+    ISIagent.remember(state, action, reward, next_state, done)
+    
+    # Render the environment
+    Env.render(screen)
+    
+    tra.draw(screen)
     pygame.display.flip()

@@ -17,11 +17,12 @@ class Agent:
         self.action_size = action_size
         self.memory = deque(maxlen=2000)  # Replay memory buffer
         self.gamma = 0.95  # Discount factor
-        self.epsilon = 1.0  # Exploration rate
+        self.epsilon = 4.0  # Exploration rate
         self.epsilon_min = 0.01  # Minimum exploration rate
         self.epsilon_decay = 0.995  # Exploration decay rate
         self.learning_rate = 0.001  # Learning rate
         self.model = self._build_model()
+        print(self.model)
 
     def _build_model(self):
         model = Sequential()
@@ -35,10 +36,10 @@ class Agent:
         self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
+        
         if np.random.rand() <= self.epsilon:
             return np.random.choice(self.action_size)
         act_values = self.model.predict(state)
-        print(act_values)
         return np.argmax(act_values[0])
         
     
@@ -71,10 +72,11 @@ class Environment:
         self.reward = 0
         self.scoredisplay = Text(((screen.get_width()//2)-70,10),50,cc.colorlist[12],"Score : 0 ",2)
         self.Episode = 0
-    
+        self.Episodedisplay = Text(((screen.get_width()//2)-400,10),50,cc.colorlist[12],f"Episode: {self.Episode}",2)
+        self.texts = [self.scoredisplay,self.Episodedisplay]
+        
     def reset(self,screen):
         self.Episode +=1 
-        self.reward = 0
         self.valor = Bot([500,500],20,1,"Retardium",cc.colorlist[11])
         self.dushman.reset_spawner()
         for a in range(0,5):
@@ -95,11 +97,13 @@ class Environment:
             m = pygame.mouse.get_pos()
             e.move1(screen,self.valor.x,self.valor.y)
         if self.is_collision():
+            self.reward -= 10
             self.reset(screen) #change ur reward here
             
         else:
             self.reward +=1 #insta kill 
-        return self.reward
+            print(self.reward)
+            return self.get_state(),self.reward,False
     
     def get_state(self):
         valorpos = (int(self.valor.x),int(self.valor.y))
@@ -120,5 +124,7 @@ class Environment:
             a.draw(screen)
         self.valor.draw(screen)
         self.scoredisplay.update_text("Score: {}".format(self.score))
-        self.scoredisplay.draw(screen)
+        self.Episodedisplay.update_text("Episode: {}".format(self.Episode))
+        for a in self.texts:
+            a.draw(screen)
         pass
