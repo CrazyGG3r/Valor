@@ -11,17 +11,24 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import Adam
 
+import numpy as np
+from collections import deque
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import Adam
+
 class Agent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
         self.action_size = action_size
         self.memory = deque(maxlen=2000)  # Replay memory buffer
         self.gamma = 0.95  # Discount factor
-        self.epsilon = 4.0  # Exploration rate
+        self.epsilon = 1.0  # Exploration rate
         self.epsilon_min = 0.01  # Minimum exploration rate
         self.epsilon_decay = 0.995  # Exploration decay rate
         self.learning_rate = 0.001  # Learning rate
         self.model = self._build_model()
+        self.filename = 'agentmodel.h5'
         print(self.model)
 
     def _build_model(self):
@@ -36,26 +43,28 @@ class Agent:
         self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
-        
         if np.random.rand() <= self.epsilon:
             return np.random.choice(self.action_size)
         act_values = self.model.predict(state)
         return np.argmax(act_values[0])
-        
     
     def replay(self, batch_size):
-        minibatch = np.array(random.sample(self.memory, batch_size))
+        if len(self.memory) < batch_size:
+            return
+        minibatch = random.sample(self.memory, batch_size)
         for state, action, reward, next_state, done in minibatch:
+            next_state = np.reshape(next_state, (1, self.state_size))
+            state = np.reshape(state, (1, self.state_size))
             target = reward
             if not done:
-                target = reward + self.gamma * np.amax(self.model.predict(next_state)[0])
+                target = reward + self.gamma * np.amax(self.model.predict(next_state))
             target_f = self.model.predict(state)
             target_f[0][action] = target
             self.model.fit(state, target_f, epochs=1, verbose=0)
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
-    def save(self, filename):
+    def save(self,filename):
         self.model.save_weights(filename)
 
     def load(self, filename):
@@ -101,23 +110,29 @@ class Environment:
             self.reset(screen) #change ur reward here
             
         else:
-            self.reward +=1 #insta kill 
-            print(self.reward)
+            self.reward +=1 #good boy
             return self.get_state(),self.reward,False
         return self.get_state(),self.reward,False
     
     def get_state(self):
+        state = []
         valorpos = (int(self.valor.x),int(self.valor.y))
+        state.append(valorpos[0])
+        state.append(valorpos[1])
+        vectorr = int(self.valor.MovVector[0]),int(self.valor.MovVector[1])
+        state.append(vectorr[0])
+        state.append(vectorr[1])
+        
         each_enemy = []
         for a in self.dushman.enemies:
-            each_enemy.append((int(a.x),int(a.y)))
+            state.append(int(a.x))
+            state.append(int(a.y))
         dist_from_each_Enemy = []
         for a in self.dushman.enemies:
             b = int(sqrt(((a.y - self.valor.y)*(a.y - self.valor.y)) + ((a.x-self.valor.x)*(a.x-self.valor.x))))
-            dist_from_each_Enemy.append(b)
-        vectorr = int(self.valor.MovVector[0]),int(self.valor.MovVector[1])
-        state =[valorpos,vectorr,dist_from_each_Enemy,each_enemy]
-        
+            state.append(b)
+        state = np.reshape(state, (1, len(state)))
+        print(state)
         return state
     
     def render(self,screen): 

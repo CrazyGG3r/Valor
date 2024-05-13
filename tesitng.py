@@ -5,6 +5,16 @@ import colorgentool as genn
 import colors as cc
 import random as r
 
+# Initialize Pygame
+pygame.init()
+
+# Set up the screen
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Simple Game")
+
+
 pygame.init()
 
 i = pygame.display.Info()
@@ -27,35 +37,58 @@ ti =  0
 
 bgg = d.Background(screen,12,1)
 tra = d.Trailsquare(5)
-Env = Environment(screen)
 
-ISIagent = Agent(12,5)
 
-while True:
-    screen.fill(bg)
-    clock.tick(fps)
-    ti += 1
+# Initialize the environment and agent
+env = Environment(screen)
+agent = Agent(state_size=19, action_size=4)
+
+# Define training parameters
+batch_size = 32
+replay_interval = 10  # Replay every 10 steps
+save_interval = 1000  # Save model weights every 1000 episodes
+
+running = True
+episode = 0
+while running:
+    screen.fill((0, 0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-    
-    bgg.draw(screen)
-    tra.update(pygame.mouse.get_pos())
-    
+            running = False
+
     # Get current state
-    state = Env.get_state()
-    
+    state = env.get_state()
+
     # Choose action
-    action = ISIagent.act(state)
-    
+    action = agent.act(state)
+
     # Take action in the environment and get next state, reward, and done flag
-    next_state, reward, done = Env.step(screen, action)
-    
+    next_state, reward, done = env.step(screen,action)
+
     # Remember the experience
-    ISIagent.remember(state, action, reward, next_state, done)
-    
+    agent.remember(state, action, reward, next_state, done)
+
+    # Periodically perform replay
+    if episode % replay_interval == 0:
+        agent.replay(batch_size)
+
+    # Save model weights periodically
+    if episode % save_interval == 0:
+        agent.save("agent_model.weights.h5")
+
     # Render the environment
-    Env.render(screen)
-    
-    tra.draw(screen)
-    pygame.display.flip()
+    env.render(screen)
+
+    # Update display
+    pygame.display.update()
+
+    # Check if the episode is finished
+    if done:
+        episode += 1
+        print("Episode:", episode)
+        env.reset()
+
+# Save model weights after training
+agent.save("agent_model.weights.h5")
+
+pygame.quit()
