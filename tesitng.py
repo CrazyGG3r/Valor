@@ -41,8 +41,8 @@ tra = d.Trailsquare(5)
 
 # Initialize the environment and agent
 env = Environment(screen)
-agent = Agent(state_size=19, action_size=4)
-
+agent = Agent(state_size=14, action_size=4)
+agent.load('agent_model.weights.h5')
 # Define training parameters
 batch_size = 32
 replay_interval = 10  # Replay every 10 steps
@@ -50,7 +50,10 @@ save_interval = 1000  # Save model weights every 1000 episodes
 
 running = True
 episode = 0
+clock = pygame.time.Clock()
+
 while running:
+    clock.tick(60)
     screen.fill((0, 0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -68,14 +71,6 @@ while running:
     # Remember the experience
     agent.remember(state, action, reward, next_state, done)
 
-    # Periodically perform replay
-    if episode % replay_interval == 0:
-        agent.replay(batch_size)
-
-    # Save model weights periodically
-    if episode % save_interval == 0:
-        agent.save("agent_model.weights.h5")
-
     # Render the environment
     env.render(screen)
 
@@ -84,8 +79,6 @@ while running:
 
     # Check if the episode is finished
     if done:
-        episode += 1
-        print("Episode:", episode)
         env.reset()
 
 # Save model weights after training

@@ -43,8 +43,8 @@ class Agent:
         self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
-        if np.random.rand() <= self.epsilon:
-            return np.random.choice(self.action_size)
+        # if np.random.rand() <= self.epsilon:
+        #     return np.random.choice(self.action_size)
         act_values = self.model.predict(state)
         return np.argmax(act_values[0])
     
@@ -73,7 +73,7 @@ class Agent:
 
 class Environment:
     def __init__(self,screen):
-        self.valor = Bot([500,500],20,1,"Retardium",cc.colorlist[11])
+        self.valor = Bot([500,500],20,3,"Retardium",cc.colorlist[11])
         self.dushman = spawner(screen,self.valor) 
         for a in range(0,5):
             self.dushman.spawn(cc.colorlist[8])
@@ -86,7 +86,7 @@ class Environment:
         
     def reset(self,screen):
         self.Episode +=1 
-        self.valor = Bot([500,500],20,1,"Retardium",cc.colorlist[11])
+        self.valor = Bot([500,500],20,3,"Retardium",cc.colorlist[11])
         self.dushman.reset_spawner()
         for a in range(0,5):
             self.dushman.spawn(cc.colorlist[5])
@@ -110,7 +110,7 @@ class Environment:
             self.reset(screen) #change ur reward here
             
         else:
-            self.reward +=1 #good boy
+            self.reward +=2 #good boy
             return self.get_state(),self.reward,False
         return self.get_state(),self.reward,False
     
@@ -125,8 +125,15 @@ class Environment:
         
         each_enemy = []
         for a in self.dushman.enemies:
-            state.append(int(a.x))
-            state.append(int(a.y))
+            dx = self.valor.x - a.x
+            dy = self.valor.y - a.y
+            
+            # Calculate the angle from enemy to player
+            angle = np.arctan2(dy, dx)
+            
+            # Convert angle from radians to degrees and append to state
+            angle_degrees = np.degrees(angle)
+            state.append(int(angle_degrees))
         dist_from_each_Enemy = []
         for a in self.dushman.enemies:
             b = int(sqrt(((a.y - self.valor.y)*(a.y - self.valor.y)) + ((a.x-self.valor.x)*(a.x-self.valor.x))))

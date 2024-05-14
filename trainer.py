@@ -41,10 +41,10 @@ tra = d.Trailsquare(5)
 
 # Initialize the environment and agent
 env = Environment(screen)
-agent = Agent(state_size=19, action_size=4)
+agent = Agent(state_size=14, action_size=4)
 
 # Define training parameters
-batch_size = 32
+batch_size = 16
 replay_interval = 10  # Replay every 10 steps
 save_interval = 1000  # Save model weights every 1000 episodes
 
@@ -55,7 +55,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+    tra.update(pygame.mouse.get_pos())
+    
     # Get current state
     state = env.get_state()
 

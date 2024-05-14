@@ -197,13 +197,13 @@ class Bot(Ball):
          self.x += self.MovVector[0]
          self.y += self.MovVector[1]
          self.decayVector()
-         if event == 1:
+         if event == 0:
              self.MovVector[0] = -self.speed
-         if event == 2:
+         if event == 1:
              self.MovVector[0] = +self.speed
-         if event == 3:
+         if event == 2:
              self.MovVector[1] = -self.speed
-         if event == 4:
+         if event == 3:
              self.MovVector[1] = self.speed
          self.check_pos(screen)
          
