@@ -20,7 +20,21 @@ class Background:
             self.reset_bg2(window)
         if self.style ==3:
             self.reset_bg3(window)
-    
+        if self.style ==4:
+            self.reset_bg4(window)
+    def reset_bg4(self,window):
+       if self.squares:
+            for a in range(self.population):
+                self.squares.pop()
+       newlist = c.colorlist[2:8]
+       for a in range(self.population):
+            coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
+            coloro = r.choice(newlist)
+            raa = r.randint(0,100)/1000
+            raa = r.choice(self.choice) * raa
+            self.squares.append(Square(coo,r.randint(10,self.maxsize-50),coloro,raa))
+        
+        
     def reset_bg2(self,window):
         if self.squares:
             for a in range(self.population):
@@ -31,7 +45,7 @@ class Background:
             coloro = (0,neon,neon)
             raa = r.randint(0,10)/1000
             raa = r.choice(self.choice) * raa
-            self.squares.append(Square(coo,r.randint(30,self.maxsize),coloro,raa,1))
+            self.squares.append(Square(coo,r.randint(30,self.maxsize-100),coloro,raa,1))
             
     def reset_bg3(self,window):
         if self.squares:
@@ -55,7 +69,13 @@ class Background:
             coloro = r.choice(newlist)
             raa = r.randint(0,100)/1000
             raa = r.choice(self.choice) * raa
-            self.squares.append(Square(coo,r.randint(10,self.maxsize-50),coloro,raa))
+            self.squares.append(Square(coo,r.randint(10,self.maxsize-50),coloro,raa,True))
+    
+    def special_draw(self,mouse,window):
+        window.fill(c.colorlist[0])
+        for a in self.squares:
+            a.attract(mouse,window)
+            a.draw(window)
             
     def draw(self,window):
         window.fill(c.colorlist[0])
@@ -64,40 +84,53 @@ class Background:
             a.draw(window)
 
 class Square:
-    def __init__(self,coords,l,color,ra):
+    def __init__(self,coords,l,color,ra,flag = False):
         self.l = l
         self.color = color
         self.coords = coords
         self.x = self.coords[0]
         self.y = self.coords[1]
-        # self.angle = r.randint(0,360)
+
         self.angle = 100
         self.surface = pygame.Surface((self.l,self.l),pygame.SRCALPHA)
         self.surface.set_alpha(10)
         self.RotationalSpeed = ra
+        self.attractflag = flag
         speed = 10
+        self.speed = speed
         
         self.directionVector = (r.randint(-speed,speed)/r.randint(10,100),r.randint(speed,speed)/r.randint(10,100))
        
-        
-    def move(self,screen):
-        self.x +=  self.directionVector[0]
-        self.y +=  self.directionVector[1]
-        self.coords = (self.x,self.y)
-        if self.x >= screen.get_width():
-            self.directionVector = (self.directionVector[0]*-1,self.directionVector[1])
+    def attract(self,target,screen = None):
+            self.coords = (self.x,self.y)
             
-        if self.x <= 0:
-            self.directionVector = (self.directionVector[0]*-1,self.directionVector[1])
+            if self.x >= target[0]:
+                self.x -= r.randint(1,self.speed)/r.randint(10,500)
+            elif self.x <= target[0]:
+                self.x+= r.randint(1,self.speed )/r.randint(10,500)
+            if self.y <= target[1]:              
+                self.y += r.randint(1,self.speed)/r.randint(10,500)
+            elif self.y >= target[1]:            
+                self.y -= r.randint(1,self.speed)/r.randint(10,500)
+            
+            if -20 <= self.x - target[0] <= 30 and -20 <= self.y - target[1] <= 30:
+                self.x = r.randint(0,screen.get_width())
+                self.y = r.randint(0,screen.get_height())
+
+    def move(self,screen):
+            self.x +=  self.directionVector[0]
+            self.y +=  self.directionVector[1]
+            self.coords = (self.x,self.y)
+            if self.x >= screen.get_width():
+                self.directionVector = (self.directionVector[0]*-1,self.directionVector[1])
+            if self.x <= 0:
+                self.directionVector = (self.directionVector[0]*-1,self.directionVector[1])
+            if self.y <= 0 :
+                self.directionVector = (self.directionVector[0],self.directionVector[1]*-1)
+            if self.y >= screen.get_height():
+                self.directionVector = (self.directionVector[0],self.directionVector[1]*-1)
         
-        if self.y <= 0 :
-            self.directionVector = (self.directionVector[0],self.directionVector[1]*-1)
         
-        if self.y >= screen.get_height():
-            self.directionVector = (self.directionVector[0],self.directionVector[1]*-1)
-        
-        
-        pass
     def draw(self, screen):  
         square_surface = pygame.Surface((self.l, self.l), pygame.SRCALPHA)
         square_surface.fill(self.color)
@@ -105,6 +138,7 @@ class Square:
         rect = rotated_surface.get_rect(center=self.coords)
         screen.blit(rotated_surface, rect.topleft)
         self.angle += self.RotationalSpeed  
+        
     def updateCoord(self,coords):
         self.coords = coords
     def rotate(self,):
