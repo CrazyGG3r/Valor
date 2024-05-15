@@ -82,7 +82,7 @@ class Environment:
         self.scoredisplay = Text(((screen.get_width()//2)-70,10),50,cc.colorlist[12],"Score : 0 ",2)
         self.Episode = 0
         self.Episodedisplay = Text(((screen.get_width()//2)-400,10),50,cc.colorlist[12],f"Episode: {self.Episode}",2)
-        self.texts = [self.scoredisplay,self.Episodedisplay]
+        self.texts = [self.Episodedisplay]
         
     def reset(self,screen):
         self.Episode +=1 

@@ -6,6 +6,8 @@ import design as d
 import random as r
 from settings import background_color,settingsaa
 import colors as cc
+import tesitng as starttest
+import trainer 
 
 pygame.init()
 
@@ -22,27 +24,29 @@ maxsize = 150
 choice = [-1,1]
 WHITE = (0,0,0)
 offsety = 40
-offsetx = 160
+offsetx = 100
 butt_h = 40
-butt_w = 200
+butt_w = 250
 neon  = 150
 color_butt = (0,neon,neon)
 bf = 1
 textcolor = cc.colorlist[12]
 heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,textcolor ,"               Valor",1)
 sizefont = 30
-#0c0c0c,201310,351b15,4a2319,5f2a1e,743223,893a27,9e422c,b34931,c85135,dd593a,f2613f
+
 fcolor = cc.colorlist[2]
-t1 = c.Text((0, 0), sizefont, fcolor, "Start",bf)
-t2 = c.Text((0, 0), sizefont, fcolor, "Options",bf)
-t3 = c.Text((0, 0), sizefont, fcolor, "Credits",bf)
-t4 = c.Text((0, 0), sizefont, fcolor, "Exit",bf)
-b1 = c.button(((heading.x + offsetx), (heading.y + offsety + 10)), butt_w, butt_h, color_butt, (10, 5), t1,)
-b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2,settingsaa)
-b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3,)
-b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4,exit)
+t1 = c.Text((0, 0), sizefont, fcolor, "See Results",bf)
+t2 = c.Text((0, 0), sizefont, fcolor, "Start Training",bf)
+t3 = c.Text((0, 0), sizefont, fcolor, "Options",bf)
+t4 = c.Text((0, 0), sizefont, fcolor, "Credits",bf)
+t5 = c.Text((0, 0), sizefont, fcolor, "Exit",bf)
+b1 = c.button(((heading.x + offsetx), (heading.y + offsety + 10)), butt_w, butt_h, color_butt, (10, 5), t1,starttest.testing)
+b2 = c.button((b1.x, (b1.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t2,trainer.train)
+b3 = c.button((b2.x, (b2.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t3,settingsaa)
+b4 = c.button((b3.x, (b3.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t4,)
+b5 = c.button((b4.x, (b4.y + offsety)), butt_w, butt_h, color_butt, (10, 5), t5,exit)
 all_text = [heading]
-all_butts = [b1,b2,b3,b4]
+all_butts = [b1,b2,b3,b4,b5]
 
 
 ##=-=- backgroufn
