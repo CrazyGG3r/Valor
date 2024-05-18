@@ -26,14 +26,17 @@ You need tensorflow and Pygame xd
 
 Feel free to contribute to make this environment better through your ideas!
 
-For any issues, please hesitate to contact me at :
+For any issues, please hesitate to contact me at :<br>
 shaheerislam.islam179@gmail.com 
 
 ### Valor 
 
-made by:
-Shaheer UL islam - CrazyGG3r<br>
-Zarah Hassan - Zarah25
-I also hope no future employer/Interviewer/HR department goes through my github and read these repo Readme files
+made by:<br>
+[Shaheer UL Islam - CrazyGG3r](https://github.com/CrazyGG3r)<br>
+[Zarah Hassan - Zarah25](https://github.com/Zarah25)<br>
+Trained by:<br>
+[MaazMuhammad Khan - MaazKhan3](https://github.com/MaazKhan3)<br>
+I also hope no future employer/Interviewer/HR department goes through my github and read these repo Readme files<br>
+
 
 <img src="image/logo.png" alt="Alt text" style="height:40px;">
