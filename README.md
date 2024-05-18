@@ -32,7 +32,7 @@ shaheerislam.islam179@gmail.com
 ### Valor 
 
 made by:
-Shaheer UL islam - CrazyGG3r
+Shaheer UL islam - CrazyGG3r<br>
 Zarah Hassan - Zarah25
 I also hope no future employer/Interviewer/HR department goes through my github and read these repo Readme files
 
