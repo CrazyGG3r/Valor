@@ -1,6 +1,6 @@
 
 # <img src="image/line2.png" alt="Alt text" style="height:40px;"> Valor<img src="image/line1.png" alt="Alt text" style="height:40px;">
-
+### A rogue-like environment for Reinforced Learning
 
 Retardium, An AI whose sole purpose is to run for its life, for now through reinforce learning.
 Valor provides you with a pygame based environment ( no gym, no gymnasium,no box2d and other head ache that i had to go through to implement reinforced learning in my course.)
@@ -29,13 +29,11 @@ Feel free to contribute to make this environment better through your ideas!
 For any issues, please hesitate to contact me at :
 shaheerislam.islam179@gmail.com 
 
-## Valor 
+### Valor 
+
 made by:
-
 Shaheer UL islam - CrazyGG3r
-
 Zarah Hassan - Zarah25
-
-
 I also hope no future employer/Interviewer/HR department goes through my github and read these repo Readme files
 
+<img src="image/logo.png" alt="Alt text" style="height:40px;">
