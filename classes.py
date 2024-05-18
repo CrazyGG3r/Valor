@@ -16,7 +16,7 @@ class Text:
         self.font = pygame.font.Font(font[fonts], font_size)
         self.surface = self.font.render(text, True, color)
         #credits special
-        self.angle = random.randint(0,50)
+        self.angle = random.randint(0,1)
         self.vectorr = (random.randint(-2,2)/random.randint(10,100),random.randint(-2,2)/random.randint(10,100))
         
     def update_text(self, new_text):
