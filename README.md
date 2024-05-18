@@ -1,4 +1,7 @@
-# Valor
+
+
+# Valor      <img src="image/logo.png" alt="Alt text" style="float: right; margin-right: 10px; height:100px;">
+
 
 Retardium, An AI whose sole purpose is to run for its life, for now through reinforce learning.
 Valor provides you with a pygame based environment ( no gym, no gymnasium,no box2d and other head ache that i had to go through to implement reinforced learning in my course.)
