@@ -9,10 +9,17 @@ pygame.init()
 
 
 def creditss(window):
-    bgg = d.Background(window,100,4)
+    bgg = d.Background(window,40,4)
     tra = d.Trailsquare(100)
     running = True
     
+    t1 = Text((r.randint(100,800),100),40,cccc.colorlist[11],"Made BY:",1)
+    t2 = Text((r.randint(10,900),200),40,cccc.colorlist[11],"Shaheer Ul Islam",1)
+    t3 = Text((r.randint(10,900),300),40,cccc.colorlist[11],"Zarah Hasan",1)
+    t4 = Text((r.randint(10,900),500),40,cccc.colorlist[11],"Trained by: ",1)
+    t5 = Text((r.randint(10,900),600),40,cccc.colorlist[11],"Maaz Khan ",1)
+    
+    all_text = [t1,t2,t3,t4,t5]
     
     butts = []
     while running:
@@ -55,7 +62,8 @@ def creditss(window):
        
         tra.update(pygame.mouse.get_pos())
         bgg.special_draw(pygame.mouse.get_pos(),window)
-        
+        for a in all_text:
+            a.draw2(window)
         for a in butts:
             a.draw(window)
         tra.draw(window)

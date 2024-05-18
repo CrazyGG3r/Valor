@@ -22,11 +22,12 @@ class Background:
             self.reset_bg3(window)
         if self.style ==4:
             self.reset_bg4(window)
+            
     def reset_bg4(self,window):
        if self.squares:
             for a in range(self.population):
                 self.squares.pop()
-       newlist = c.colorlist[2:8]
+       newlist = c.colorlist[2:4]
        for a in range(self.population):
             coo = (r.randint(0,window.get_width()),r.randint(0,window.get_height()))
             coloro = r.choice(newlist)

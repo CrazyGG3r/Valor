@@ -31,7 +31,7 @@ neon  = 150
 color_butt = (0,neon,neon)
 bf = 1
 textcolor = cc.colorlist[12]
-heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,textcolor ,"               Valor",1)
+heading = c.Text((window.get_width() // 3.2, window.get_height() // 3), 40,textcolor ,"            Valor",1)
 sizefont = 30
 
 fcolor = cc.colorlist[2]

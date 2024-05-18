@@ -15,7 +15,10 @@ class Text:
         self.y = coords[1]
         self.font = pygame.font.Font(font[fonts], font_size)
         self.surface = self.font.render(text, True, color)
-
+        #credits special
+        self.angle = random.randint(0,50)
+        self.vectorr = (random.randint(-2,2)/random.randint(10,100),random.randint(-2,2)/random.randint(10,100))
+        
     def update_text(self, new_text):
         self.text = new_text
         self.surface = self.font.render(new_text, True, self.color)
@@ -23,8 +26,27 @@ class Text:
     def update_coords(self, coords):
         self.x = coords[0]
         self.y = coords[1]
+        
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))
+        
+    def draw2(self,screen):
+        rotated_surface = pygame.transform.rotate(self.surface, self.angle)
+        rotated_rect = rotated_surface.get_rect(center=(self.x, self.y))
+        screen.blit(rotated_surface, rotated_rect.topleft)
+        self.angle+=random.randint(0,10)/100
+        self.x += self.vectorr[0]
+        self.y += self.vectorr[1]
+        
+        if self.x <= -10:
+            self.vectorr = (self.vectorr[0]*-1,self.vectorr[1])
+        if self.x >= screen.get_width():
+            self.vectorr = (self.vectorr[0]*-1,self.vectorr[1])
+        if self.y <=0:
+            self.vectorr = (self.vectorr[0],self.vectorr[1]*-1)
+        if self.y >=screen.get_height():
+            self.vectorr = (self.vectorr[0],self.vectorr[1]*-1)
+            
     def updateColor(self):
         self.changecolor(c.colorlist[12])
 
