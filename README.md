@@ -34,9 +34,9 @@ made by:<br>
 [Shaheer UL Islam - CrazyGG3r](https://github.com/CrazyGG3r)<br>
 [Zarah Hassan - Zarah25](https://github.com/Zarah25)<br>
 Trained by:<br>
-[MaazMuhammad Khan - MaazKhan3](https://github.com/MaazKhan3)<br>
+[MaazMuhammad Khan - MaazKhan3](https://github.com/MaazKhan3)<br><br>
 <img src="image/logo.png" alt="Alt text" style="height:40px;">
-<br>
+<br><br>
 I hope my future employer/Interviewer/HR department goes through my github and read these repo Readme files<br>
 
 
