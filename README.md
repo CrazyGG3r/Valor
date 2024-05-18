@@ -1,6 +1,5 @@
 
-
-# Valor      <img src="image/logo.png" alt="Alt text" style="float: right; margin-right: 10px; height:100px;">
+# <img src="image/line2.png" alt="Alt text" style="height:40px;"> Valor<img src="image/line1.png" alt="Alt text" style="height:40px;">
 
 
 Retardium, An AI whose sole purpose is to run for its life, for now through reinforce learning.
