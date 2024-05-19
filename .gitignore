@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 venv/
+env/
 build/
 dist/
 .h5
