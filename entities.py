@@ -51,126 +51,30 @@ class   Ball:
             self.y = screen.get_height() + self.radius                              
 class bullet:
     def __init__(self,color = (255,255,255),x = 0,y = 0, Duration = 1, size = 5):
-        self.w,self.h = 10,5
-        self.x = x
-        self.y = y
-        self.cx = self.x
-        self.cy = self.y
-        self.size = size                                        
-        self.colorb = color
-        self.shooting = False
-        self.duration = Duration * 60  #duration defines speed
-        self.speed = None #the unitvector.
-        self.startvec = (self.x,self.y)
-        self.currentvec = (self.cx,self.cy)
-        self.destvector = (0,0)
-        self.unitvector = (0,0)# speed
-        self.tick = 0
-        #display
-        self.sprite = pygame.image.load("b1.png")
+        pass
         
     def draw(self,screen):
-        
-        angle = degrees(atan2(self.unitvector[1],self.unitvector[0]))
-        rotated_sprite = pygame.transform.rotate(self.sprite, -angle)  # Negative angle for correct rotation direction
-        new_rect = rotated_sprite.get_rect(center=self.currentvec)
-        screen.blit(rotated_sprite, new_rect.topleft)
+        pass
         
     
     def shot(self,charx,chary,mousex,mousey):
-        self.x  = charx
-        self.y  = chary
-        self.cx = charx
-        self.cy = chary
-        self.xd = mousex
-        self.yd = mousey
-        self.currentvec = (self.cx,self.cy)
-        self.destvector = (float(self.xd),float(self.yd))
-        self.unitvector = ((self.destvector[0] - self.currentvec[0])/self.duration,(self.destvector[1] - self.currentvec[1])/self.duration)
-        self.shooting = True
-        logging.info("Bullet Shot. Unit Vector created")
+        pass
       
     def move(self):
-        self.tick+=1
-        if self.tick == self.duration:
-            self.shooting = False
-        if self.shooting == True:
-            if self.currentvec == self.destvector:
-                self.shooting = False
-            else:
-                self.currentvec = (float(self.currentvec[0]+ self.unitvector[0]),float(self.currentvec[1]+self.unitvector[1]))
+        pass
+    
 class gun:
     def __init__(self,ammo = 1000,cooldown = 30):
-        self.ammo = ammo
-        self.guncooldown = cooldown         
+        pass   
+    
 class pistol(gun):
     def __init__(self,ammo = 15, cd = 50):
         super().__init__(ammo,cd)
+        pass
         
     def shoot(self,px,py,mx,my):
-        if self.ammo < 1:
-            return
-        else:
-            b = bullet()
-            b.shot(px,py,mx,my)
-            self.ammo -=1 
-            c =[b]
-            return c
-class miniGun(gun):
-    def __init__(self,ammo = 1500, cd = 5):
-        super().__init__(ammo,cd)
-        
-    def shoot(self,px,py,mx,my):
-        accuracy = 1
-        mx = mx + r.randint(accuracy-100,100-accuracy)
-        my = my + r.randint(accuracy-100,100-accuracy)
-        if self.ammo < 1:
-            return
-        else:
-            b = bullet()
-            b.shot(px,py,mx,my)
-            self.ammo -=1 
-            c = [b]
-            return c
-class shotGun(gun):
-    def __init__(self,ammo = 1000, cd = 100,radius = 200):
-        super().__init__(ammo,cd)
-        self.radius = radius
+        pass
 
-    def shoot(self,px,py,mx,my):
-        accuracy = 1
-        mx = mx + r.randint(accuracy-100,100-accuracy)
-        my = my + r.randint(accuracy-100,100-accuracy)
-        if self.ammo < 1:
-            return
-        else:
-            b = bullet()
-            b.shot(px,py,mx,my)
-            mx = mx + r.randint(accuracy-100,100-accuracy)
-            my = my + r.randint(accuracy-100,100-accuracy)
-            b1 = bullet()
-            b1.shot(px,py,mx,my)
-            mx = mx + r.randint(accuracy-100,100-accuracy)
-            my = my + r.randint(accuracy-100,100-accuracy)
-            b2 = bullet()
-            b2.shot(px,py,mx,my)
-            mx = mx + r.randint(accuracy-100,100-accuracy)
-            my = my + r.randint(accuracy-100,100-accuracy)
-            b3 = bullet()
-            b3.shot(px,py,mx,my)
-            mx = mx + r.randint(accuracy-100,100-accuracy)
-            my = my + r.randint(accuracy-100,100-accuracy)
-            b4 = bullet()
-            b4.shot(px,py,mx,my)
-            mx = mx + r.randint(accuracy-100,100-accuracy)
-            my = my + r.randint(accuracy-100,100-accuracy)
-            b5 = bullet()
-            b5.shot(px,py,mx,my)
-            mx = mx + r.randint(accuracy-100,100-accuracy)
-            my = my + r.randint(accuracy-100,100-accuracy)
-            self.ammo -=1 
-            c = [b,b1,b2,b3,b4,b5]
-            return c
         
 class Bot(Ball):
     def __init__(self,coords, radius, speed, name, color ,screen=None):
@@ -222,7 +126,7 @@ class person(Ball):#is a ball for now
         self.maxhp = health
         self.currenthp = health
         self.lives = lives
-        self.weaponry = [miniGun(),pistol(),shotGun()]
+        self.weaponry = [pistol()]
         self.currgun = 0
         self.gun = self.weaponry[self.currgun]
         self.bullets = []
