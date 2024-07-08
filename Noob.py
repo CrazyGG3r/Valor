@@ -72,8 +72,11 @@ class Agent:
 
 
 class Environment:
-    def __init__(self,screen):
-        self.valor = Bot([500,500],20,3,"Retardium",cc.colorlist[11])
+    def __init__(self,screen,type = 0):
+        if type == 0:
+            self.valor = Bot([500,500],20,3,"Retardium",cc.colorlist[11])
+        else:
+            self.valor = person([500,500],20,3,"Monkey",cc.colorlist[12])
         self.dushman = spawner(screen,self.valor) 
         for a in range(0,5):
             self.dushman.spawn(cc.colorlist[8])
